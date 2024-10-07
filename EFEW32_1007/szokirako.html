@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Szókirakó játék</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-size: 24px;
+            color: red;
+        }
+        p {
+            font-size: 16px;
+        }
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+        .emphasis {
+            color: blue;
+            font-weight: bold;
+        }
+        .underline {
+            text-decoration: underline;
+        }
+        .italic {
+            font-style: italic;
+        }
+        .equation {
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Szókirakó játék</h1>
+
+    <p>Adott egy 4×9-es négyzethaló. A program megad egy – a négyzetabló feletti képhez kapcsolódó – szót vagy mondatot, majd ennek betűit összekeverve elhelyezi ebben a négyzetablóban.</p>
+
+    <h2>A játékos feladata az, hogy az összekevert betűkből kirakja a szót</h2>
+    <p>vagy mondatot a kijelölt helyen. <span class="underline">A betűket vízszintes vagy függőleges irányban egymás mellett kell mozgatni</span>, illetve mozgatni.</p>
+
+    <p>
+        Ha a betű egyik oldalán egy másik betű áll, akkor az csak a másik betűtől toldódik el. Miután sikerült a betűket a megfelelő helyre mozgatni, a program ezt jelzi, ha viszont valamely betűk nem férnek el egymás mellett, akkor azok <span class="highlight">színkülönbséggel hívja fel a figyelmet</span>.
+    </p>
+
+    <h3>Derékszögű háromszögben igaz <span class="highlight">Pitagorasz tétele:</span></h3>
+    <p class="equation">a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup></p>
+
+    <h3>Általános háromszögek esetén is igaz:</h3>
+    <p class="emphasis">α + β + γ = 180°</p>
+
+</body>
+</html>
