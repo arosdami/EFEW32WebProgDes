@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanfolyamok</title>
+    <link rel="stylesheet" href="css/stilusok.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('kepek/hatter.jpg');
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .courses-table {
+            max-width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .courses-table th, .courses-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .courses-table th {
+            background-color: #333;
+            color: white;
+        }
+        .courses-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .course-image {
+            width: 50px;
+            height: auto;
+            border-radius: 5px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 20px;
+        }
+        .grid-item {
+            text-align: center;
+        }
+        .grid-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .grid-item p {
+            margin-top: 10px;
+        }
+        .form-section {
+            max-width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-section label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .form-section input, .form-section textarea, .form-section select, .form-section button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-section input[type="checkbox"], 
+        .form-section input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Kezdőlap</a></li>
+                <li><a href="rolunk.html">Rólunk</a></li>
+                <li><a href="tanfolyamok.html" class="active">Tanfolyamok</a></li>
+                <li><a href="kapcsolat.html">Kapcsolat</a></li>
+                <li><a href="kereses.html">Keresés</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1 style="text-align: center;">Tanfolyamok</h1>
+
+        <!-- Képek Grid -->
+        <div class="grid-container">
+            <div class="grid-item">
+                <img src="kepek/tanfolyam1.jpg" alt="Tanfolyam 1">
+                <p>1. Tanfolyam Kép</p>
+            </div>
+            <div class="grid-item">
+                <img src="kepek/tanfolyam2.jpg" alt="Tanfolyam 2">
+                <p>2. Tanfolyam Kép</p>
+            </div>
+            <div class="grid-item">
+                <img src="kepek/tanfolyam3.jpg" alt="Tanfolyam 3">
+                <p>3. Tanfolyam Kép</p>
+            </div>
+            <div class="grid-item">
+                <img src="kepek/tanfolyam4.jpg" alt="Tanfolyam 4">
+                <p>4. Tanfolyam Kép</p>
+            </div>
+        </div>
+
+        <!-- Tanfolyamok Táblázata -->
+        <table class="courses-table">
+            <thead>
+                <tr>
+                    <th>Kép</th>
+                    <th>Tanfolyam</th>
+                    <th>Maximális létszám</th>
+                    <th>Betelt létszám</th>
+                    <th>Jelentkezés</th>
+                </tr>
+            </thead>
+            <tbody id="coursesTableBody">
+                <!-- Dinamikusan generált sorok -->
+            </tbody>
+        </table>
+
+
+
+
+         <!-- Keresési funkció -->
+        <section id="searchCourses">
+            <h2 style="text-align: center;">Keresés a tanfolyamok között</h2>
+            <input type="text" id="searchInput" placeholder="Tanfolyam neve..." onkeyup="searchCourses()" style="width: 100%; padding: 10px; margin: 10px 0;">
+        </section>
+
+        <!-- Szűrés -->
+        <section id="filterCourses">
+            <h2 style="text-align: center;">Szűrés</h2>
+            <button class="btn" onclick="filterCourses('available')">Elérhető helyek</button>
+            <button class="btn" onclick="filterCourses('full')">Betelt tanfolyamok</button>
+        </section>
+
+
+
+
+
+        <!-- Űrlap Szakasz -->
+        <section class="form-section">
+            <h2>Kapcsolatfelvételi űrlap</h2>
+            <form>
+                <label for="name">Teljes név:</label>
+                <input type="text" id="name" placeholder="Írja be a nevét">
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Írja be az email-címét">
+
+                <label for="message">Üzenet:</label>
+                <textarea id="message" rows="5" placeholder="Írja ide az üzenetét"></textarea>
+
+                <label for="color">Kedvenc szín:</label>
+                <input type="color" id="color">
+
+                <label for="date">Születési dátum:</label>
+                <input type="date" id="date">
+
+                <label>Érdeklődési területek:</label>
+                <input type="checkbox" id="web" name="interest" value="web">
+                <label for="web">Webfejlesztés</label>
+                <input type="checkbox" id="db" name="interest" value="database">
+                <label for="db">Adatbázis-kezelés</label>
+
+                <label>Tanfolyam típusa:</label>
+                <input type="radio" id="online" name="type" value="online">
+                <label for="online">Online</label>
+                <input type="radio" id="offline" name="type" value="offline">
+                <label for="offline">Helyszíni</label>
+
+                <button type="submit">Küldés</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p style="text-align: center;">2024 Oktatási Platform - Aros D. (R)</p>
+    </footer>
+    <script>
+        const courseData = [
+            { name: "Webfejlesztés alapjai", maxSeats: 30, filledSeats: 20, image: "kepek/tanfolyam1.jpg" },
+            { name: "JavaScript programozás", maxSeats: 25, filledSeats: 15, image: "kepek/tanfolyam2.jpg" },
+            { name: "Adatbázis-kezelés SQL-ben", maxSeats: 20, filledSeats: 10, image: "kepek/tanfolyam3.jpg" },
+            { name: "Python kezdőknek", maxSeats: 30, filledSeats: 25, image: "kepek/tanfolyam4.jpg" },
+            { name: "Hálózatok alapjai", maxSeats: 15, filledSeats: 5, image: "kepek/tanfolyam.jpg" },
+        ];
+
+        const coursesTableBody = document.getElementById('coursesTableBody');
+
+        function renderTable() {
+            courseData.forEach(course => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><img src="${course.image}" alt="Tanfolyam kép" class="course-image"></td>
+                    <td>${course.name}</td>
+                    <td>${course.maxSeats}</td>
+                    <td>${course.filledSeats}</td>
+                    <td><button class="btn" onclick="apply('${course.name}')">Jelentkezem</button></td>
+                `;
+                coursesTableBody.appendChild(row);
+            });
+        }
+
+        function apply(courseName) {
+            alert(`Sikeresen jelentkeztél a(z) "${courseName}" tanfolyamra!`);
+        }
+
+        renderTable();
+    </script>
+</body>
+</html>
