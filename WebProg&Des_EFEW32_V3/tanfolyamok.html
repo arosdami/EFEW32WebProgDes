@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanfolyamok</title>
+    <link rel="stylesheet" href="css/stilusok.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('kepek/hatter.jpg');
+            background-size: cover;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .courses-table {
+            max-width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .courses-table th, .courses-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .courses-table th {
+            background-color: #333;
+            color: white;
+        }
+        .courses-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+        .course-image {
+            width: 50px;
+            height: auto;
+            border-radius: 5px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 20px;
+        }
+        .grid-item {
+            text-align: center;
+        }
+        .grid-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .grid-item p {
+            margin-top: 10px;
+        }
+        .form-section {
+            max-width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-section label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .form-section input, .form-section textarea, .form-section select, .form-section button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-section input[type="checkbox"], 
+        .form-section input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Kezdőlap</a></li>
+                <li><a href="rolunk.html">Rólunk</a></li>
+                <li><a href="tanfolyamok.html" class="active">Tanfolyamok</a></li>
+                <li><a href="kapcsolat.html">Kapcsolat</a></li>
+                <li><a href="kereses.html">Keresés</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1 style="text-align: center;">Tanfolyamok</h1>
+
+         <!-- Keresés és szűrő -->
+<section id="searchAndFilter">
+    <input type="text" id="searchInput" placeholder="Keresés tanfolyam neve alapján..." oninput="searchCourses()">
+    <div class="filter-buttons">
+        <button class="btn" onclick="filterByStatus('all')">Összes</button>
+        <button class="btn" onclick="filterByStatus('available')">Elérhető helyek</button>
+        <button class="btn" onclick="filterByStatus('full')">Betelt tanfolyamok</button>
+    </div>
+</section>
+
+<!-- Táblázat -->
+<section class="table-container">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Kép</th>
+                <th>Tanfolyam neve</th>
+                <th>Maximális létszám</th>
+                <th>Jelenlegi létszám</th>
+                <th>Művelet</th>
+            </tr>
+        </thead>
+        <tbody id="coursesTableBody"></tbody>
+    </table>
+</section>
+
+<style>
+/* Szűrő és kereső középre igazítása */
+#searchAndFilter {
+    text-align: center;
+    margin: 30px 0;
+}
+
+#searchInput {
+    padding: 10px;
+    font-size: 16px;
+    width: 300px;
+    margin-bottom: 20px;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+#searchInput:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+}
+
+/* Szűrőgombok */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+}
+
+.btn.disabled {
+    background-color: gray;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Táblázat stílus */
+.table-container {
+    max-width: 80%;
+    margin: 0 auto;
+    overflow-x: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table thead tr {
+    background-color: #4CAF50;
+    color: #ffffff;
+    text-align: left;
+    font-size: 18px;
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* Gombok a táblázatban */
+.styled-table .btn {
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+</style>
+
+        <!-- Képek Grid -->
+<div class="grid-container">
+    <!-- Első kép blokk -->
+    <div class="grid-item" title="Webfejlesztés alapok tanfolyam">
+        <img src="kepek/tanfolyam1.jpg" alt="webfejlesztés">
+        <p>Webfejlesztés</p>
+    </div>
+    <!-- Második kép blokk -->
+    <div class="grid-item" title="JavaScript programozási tanfolyam">
+        <img src="kepek/tanfolyam2.jpg" alt="JavaScript">
+        <p>JavaScript</p>
+    </div>
+    <!-- Harmadik kép blokk -->
+    <div class="grid-item" title="SQL adatbázis-kezelés tanfolyam">
+        <img src="kepek/tanfolyam3.jpg" alt="SQL">
+        <p>SQL</p>
+    </div>
+    <!-- Negyedik kép blokk -->
+    <div class="grid-item" title="Python fejlesztői tanfolyam">
+        <img src="kepek/tanfolyam4.jpg" alt="Python">
+        <p>Python</p>
+    </div>
+</div>
+
+<!-- CSS a középre igazított, kisebb képekhez -->
+<style>
+/* Grid elrendezés beállítása */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 oszlopos elrendezés */
+    gap: 20px; /* Elemek közötti távolság */
+    justify-content: center; /* Vízszintesen középre igazítás */
+    align-items: center; /* Függőlegesen középre igazítás */
+    padding: 20px; /* Külső margó */
+    margin: 0 auto; /* Középre igazítás az oldalon */
+}
+
+/* Grid elem stílusa */
+.grid-item {
+    text-align: center; /* Szöveg középre igazítása */
+    cursor: pointer; /* Mutató változása egérrel */
+    position: relative; /* Tooltip pozícionálás */
+}
+
+/* Képek méretének beállítása */
+.grid-item img {
+    width: 150px; /* Kisebb szélesség */
+    height: 120px; /* Kisebb magasság */
+    object-fit: cover; /* Arányos kitöltés */
+    border-radius: 5px; /* Lekerekített sarkok */
+}
+
+/* Tooltip stílus */
+.grid-item:hover::after {
+    content: attr(title); /* A 'title' attribútum tartalmát jeleníti meg */
+    position: absolute; /* Az elemhez viszonyítva helyezzük el */
+    top: -30px; /* Tooltip pozíciója a kép fölött */
+    left: 50%; /* Középre igazítás */
+    transform: translateX(-50%); /* Középre pozícionálás */
+    background-color: rgba(0, 0, 0, 0.8); /* Háttérszín, átlátszóság */
+    color: #fff; /* Szöveg színe */
+    padding: 8px; /* Belső margó */
+    border-radius: 5px; /* Lekerekített sarkok */
+    white-space: nowrap; /* Egy sorban jelenjen meg a szöveg */
+    z-index: 1000; /* Tooltip mindig látható legyen */
+    font-size: 14px; /* Szöveg mérete */
+    pointer-events: none; /* Tooltip ne legyen kattintható */
+    opacity: 0; /* Alapból rejtett */
+    transition: opacity 0.3s; /* Animáció */
+}
+
+/* Hover állapotban a tooltip megjelenítése */
+.grid-item:hover::after {
+    opacity: 1; /* Láthatóvá teszi a tooltipet */
+}
+</style>
+
+
+
+
+<style>
+/* Szűrés szakasz stílusa */
+#filterCourses {
+    text-align: center; /* Középre igazítás */
+    margin: 20px auto; /* Középre helyezés és külső margó */
+    padding: 20px; /* Belső margó */
+}
+
+/* Cím stílusa */
+#filterCourses h2 {
+    font-size: 24px; /* Nagyobb betűméret */
+    margin-bottom: 20px; /* Távolság a gomboktól */
+}
+
+/* Gomb stílusa */
+#filterCourses .btn {
+    background-color: #4CAF50; /* Zöld háttérszín */
+    color: white; /* Fehér szöveg */
+    border: none; /* Keret nélküli gomb */
+    padding: 10px 20px; /* Belső margó */
+    font-size: 16px; /* Betűméret */
+    cursor: pointer; /* Mutatóvá változó kurzor */
+    border-radius: 5px; /* Lekerekített sarkok */
+    margin: 10px; /* Távolság a gombok között */
+    transition: background-color 0.3s; /* Színváltozás animáció */
+}
+
+/* Hover effekt a gombokra */
+#filterCourses .btn:hover {
+    background-color: #45a049; /* Sötétebb zöld */
+}
+</style>
+
+
+<!-- Kapcsolatfelvételi Űrlap -->
+<section class="form-section">
+    <h2>Kapcsolatfelvételi űrlap</h2>
+    <p>Kérjük, töltse ki az alábbi űrlapot, hogy felvehessük Önnel a kapcsolatot.</p>
+    <form class="modern-form">
+        <div class="form-group">
+            <label for="name">Teljes név:</label>
+            <input type="text" id="name" placeholder="Írja be a nevét">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Írja be az email-címét">
+        </div>
+
+        <div class="form-group">
+            <label for="message">Üzenet:</label>
+            <textarea id="message" rows="5" placeholder="Írja ide az üzenetét"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="color">Kedvenc szín:</label>
+            <input type="color" id="color">
+        </div>
+
+        <div class="form-group">
+            <label for="date">Születési dátum:</label>
+            <input type="date" id="date">
+        </div>
+
+        <div class="form-group">
+            <label>Érdeklődési területek:</label>
+            <div class="checkbox-group">
+                <input type="checkbox" id="web" name="interest" value="web">
+                <label for="web">Webfejlesztés</label>
+                <input type="checkbox" id="db" name="interest" value="database">
+                <label for="db">Adatbázis-kezelés</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Tanfolyam típusa:</label>
+            <div class="radio-group">
+                <input type="radio" id="online" name="type" value="online">
+                <label for="online">Online</label>
+                <input type="radio" id="offline" name="type" value="offline">
+                <label for="offline">Helyszíni</label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-button">Küldés</button>
+    </form>
+</section>
+
+<style>
+/* Általános Stílus */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.form-section {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 30px;
+    background: linear-gradient(145deg, #ffffff, #eef1f5);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.form-section h2 {
+    font-size: 28px;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.form-section p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Modern Form */
+.modern-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    text-align: left;
+    position: relative;
+}
+
+.form-group label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="date"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    background: #f9f9f9;
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #4CAF50;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+}
+
+textarea {
+    resize: none;
+}
+
+.form-group input[type="color"] {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+    transition: transform 0.3s;
+}
+
+.form-group input[type="color"]:hover {
+    transform: scale(1.2);
+}
+
+/* Checkbox és Radiogombok */
+.checkbox-group,
+.radio-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.checkbox-group label,
+.radio-group label {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Küldés Gomb */
+.submit-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.6);
+}
+
+/* Mobilbarát kialakítás */
+@media (max-width: 768px) {
+    .form-section {
+        padding: 20px;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 15px;
+    }
+}
+</style>
+   
+    <script>
+       const courseData = [
+    { name: "Webfejlesztés alapjai", maxSeats: 30, filledSeats: 20, image: "kepek/tanfolyam1.jpg" },
+    { name: "JavaScript programozás", maxSeats: 25, filledSeats: 15, image: "kepek/tanfolyam2.jpg" },
+    { name: "Adatbázis-kezelés SQL-ben", maxSeats: 20, filledSeats: 10, image: "kepek/tanfolyam3.jpg" },
+    { name: "Python kezdőknek", maxSeats: 30, filledSeats: 30, image: "kepek/tanfolyam4.jpg" }, // Ez már betelt
+    { name: "Hálózatok alapjai", maxSeats: 15, filledSeats: 5, image: "kepek/tanfolyam.jpg" },
+];
+
+const coursesTableBody = document.getElementById('coursesTableBody');
+
+// Táblázat frissítése
+function renderTable() {
+    coursesTableBody.innerHTML = ""; // Korábbi tartalom törlése
+    courseData.forEach((course, index) => {
+        const row = document.createElement('tr');
+        const isFull = course.filledSeats >= course.maxSeats; // Ellenőrzés, hogy betelt-e
+        row.innerHTML = `
+            <td><img src="${course.image}" alt="Tanfolyam kép" class="course-image"></td>
+            <td>${course.name}</td>
+            <td>${course.maxSeats}</td>
+            <td>${course.filledSeats}</td>
+            <td>
+                <button class="btn ${isFull ? 'disabled' : ''}" onclick="apply(${index})" ${isFull ? 'disabled' : ''}>
+                    ${isFull ? 'Betelt' : 'Jelentkezem'}
+                </button>
+            </td>
+        `;
+        coursesTableBody.appendChild(row);
+    });
+}
+
+// Jelentkezés kezelése
+function apply(index) {
+    const course = courseData[index];
+    if (course.filledSeats < course.maxSeats) {
+        course.filledSeats++; // Létszám növelése
+        alert(`Sikeresen jelentkeztél a(z) "${course.name}" tanfolyamra!`);
+    }
+    if (course.filledSeats >= course.maxSeats) {
+        alert(`A(z) "${course.name}" tanfolyam betelt!`);
+    }
+    renderTable(); // Táblázat újrarenderelése
+}
+
+renderTable();
+
+    </script>
+</body>
+
+<footer>
+    <p style="text-align: center;">2024 Oktatási Platform - Aros D. (R)</p>
+</footer>
+
+</html>
+
