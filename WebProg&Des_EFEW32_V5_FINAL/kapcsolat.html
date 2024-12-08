@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapcsolat</title>
+    <link rel="stylesheet" href="css/stilusok.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Kezdőlap</a></li>
+                <li><a href="rolunk.html">Rólunk</a></li>
+                <li><a href="tanfolyamok.html">Tanfolyamok</a></li>
+                <li><a href="kapcsolat.html">Kapcsolat</a></li>
+                <li><a href="kereses.html">Keresés</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!-- Kapcsolatfelvételi Űrlap -->
+<section class="form-section">
+    <h2>Kapcsolatfelvételi űrlap</h2>
+    <p>Kérjük, töltse ki az alábbi űrlapot, hogy felvehessük Önnel a kapcsolatot.</p>
+    <form class="modern-form" action="mailto:arosdami@outlook.com" method="post" enctype="text/plain">
+        <div class="form-group">
+            <label for="name">Teljes név:</label>
+            <input type="text" id="name" name="name" placeholder="Írja be a nevét" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Írja be az email-címét" required>
+        </div>
+
+        <div class="form-group">
+            <label for="message">Üzenet:</label>
+            <textarea id="message" name="message" rows="5" placeholder="Írja ide az üzenetét" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="color">Kedvenc szín:</label>
+            <input type="color" id="color" name="color">
+        </div>
+
+        <div class="form-group">
+            <label for="date">Születési dátum:</label>
+            <input type="date" id="date" name="date">
+        </div>
+
+        <div class="form-group">
+            <label>Érdeklődési területek:</label>
+            <div class="checkbox-group">
+                <input type="checkbox" id="web" name="interest" value="web">
+                <label for="web">Webfejlesztés</label>
+                <input type="checkbox" id="db" name="interest" value="database">
+                <label for="db">Adatbázis-kezelés</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Tanfolyam típusa:</label>
+            <div class="radio-group">
+                <input type="radio" id="online" name="type" value="online">
+                <label for="online">Online</label>
+                <input type="radio" id="offline" name="type" value="offline">
+                <label for="offline">Helyszíni</label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-button">Küldés</button>
+    </form>
+</section>
+
+
+<style>
+    
+/* Általános Stílus */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.form-section {
+    max-width: 700px;
+    margin: 50px auto;
+    padding: 30px;
+    background: linear-gradient(145deg, #ffffff, #eef1f5);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.form-section h2 {
+    font-size: 28px;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.form-section p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+/* Modern Form */
+.modern-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    text-align: left;
+    position: relative;
+}
+
+.form-group label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="date"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    background: #f9f9f9;
+    box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #4CAF50;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+}
+
+textarea {
+    resize: none;
+}
+
+.form-group input[type="color"] {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+    transition: transform 0.3s;
+}
+
+.form-group input[type="color"]:hover {
+    transform: scale(1.2);
+}
+
+/* Checkbox és Radiogombok */
+.checkbox-group,
+.radio-group {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.checkbox-group label,
+.radio-group label {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Küldés Gomb */
+.submit-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+}
+
+.submit-button:hover {
+    background-color: #45a049;
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.6);
+}
+
+/* Mobilbarát kialakítás */
+@media (max-width: 768px) {
+    .form-section {
+        padding: 20px;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 15px;
+    }
+}
+
+    </script>
+</body>
+
+<footer>
+    <p style="text-align: center;">2024 Oktatási Platform - Aros D. (R)</p>
+</footer>
+
+</html>
