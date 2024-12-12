@@ -1,0 +1,70 @@
+KONSTANSOK:
+    MAX_SOR_HOSSZ <- 256
+    KULCS_HOSSZ <- 5
+    KULCS <- [5, -14, 31, -9, 3]
+    JELSZO_FAJL <- "jelszo.bin"
+    TELEFONKONYV_FAJL <- "telefonkonyv.bin"
+
+FÜGGVÉNY dekodol_sor(sor):
+    ITERÁLJ minden karakteren a sorban, amíg véget nem ér:
+        sor[karakter] <- sor[karakter] - KULCS[karakter_index MOD KULCS_HOSSZ]
+
+FÜGGVÉNY hitelesit_felhasznalo(felhasznalo, jelszo):
+    NYISD MEG JELSZO_FAJL bináris olvasásra
+    HA nem sikerül megnyitni:
+        VISSZAAD 0
+    EGYÉBKÉNT:
+        WHILE fájlban van még olvasandó sor:
+            olvasd be a sor tartalmát
+            dekodold a sort
+            felhasznalo_nev <- első rész '*' előtt
+            jelszo_nev <- második rész '*' után
+            HA felhasznalo_nev és jelszo_nev megegyezik a megadott adatokkal:
+                ZÁRD BE a fájlt
+                VISSZAAD 1
+        ZÁRD BE a fájlt
+        VISSZAAD 0
+
+FÜGGVÉNY modern_menu(cimek, cimek_szama):
+    INICIALIZÁLD ncurses-t
+    ciklus végtelen:
+        TÖRÖLD a képernyőt
+        JELENÍTSD MEG a menüpontokat
+        VÁRD A FELHASZNÁLÓ BEVITELÉT
+        HA FEL NYÍL:
+            MOZGASD A KIJELÖLÉST FEL
+        HA LE NYÍL:
+            MOZGASD A KIJELÖLÉST LE
+        HA ENTER:
+            ZÁRD LE ncurses-t
+            VISSZAAD a kiválasztott indexet
+
+FÜGGVÉNY belepes_ablak():
+    TÖRÖLD a képernyőt
+    KÉRJ be felhasználónevet
+    KÉRJ be jelszót
+    VISSZAAD a bevitt adatokat
+
+FÜGGVÉNY bongesz_telefonkonyv():
+    NYISD MEG TELEFONKONYV_FAJL bináris olvasásra
+    HA nem sikerül megnyitni:
+        JELENÍTS MEG HIBÁT
+        KILÉPÉS
+    TÖLTSD BE a sorokat és dekodold őket
+    INICIALIZÁLD ncurses-t
+    CIKLUS amíg a felhasználó nem nyomja meg 'q'-t:
+        TÖRÖLD a képernyőt
+        JELENÍTSD MEG a sorokat kiemelve az aktuális sort
+        KEZELD a nyílbillentyűkkel való navigációt
+    ZÁRD LE ncurses-t és a fájlt
+
+FÜGGVÉNY main():
+    INICIALIZÁLD ncurses-t
+    KÉRJ be hitelesítési adatokat
+    HA a hitelesítés sikeres:
+        HÍVD MEG modern_menu()
+        HA a felhasználó a telefonkönyvet választja:
+            HÍVD MEG bongesz_telefonkonyv()
+    EGYÉBKÉNT:
+        JELENÍTS MEG HIBAÜZENETET
+    ZÁRD LE ncurses-t
